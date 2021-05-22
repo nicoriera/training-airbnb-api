@@ -1,9 +1,6 @@
 const express = require("express");
 const formidable = require("express-formidable");
 const mongoose = require("mongoose");
-const uid2 = require("uid2");
-const encBase64 = require("crypto-js/enc-base64");
-const SHA256 = require("crypto-js/sha256");
 const helmet = require("helmet");
 const cors = require("cors");
 const app = express();
@@ -20,6 +17,9 @@ mongoose.connect("mongodb://localhost/airbnb-api", {
 
 const userRoutes = require("./routes/user");
 app.use(userRoutes);
+
+const roomRoutes = require("./routes/room");
+app.use(roomRoutes);
 
 app.get("/", function (req, res) {
   res.send("Wlecom to Airbnb API.");
