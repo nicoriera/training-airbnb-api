@@ -1,11 +1,17 @@
 const mongoose = require("mongoose");
 
 const Room = mongoose.model("Room", {
-  photos: Array,
   title: String,
   descritpion: String,
   price: Number,
-  location: Array,
+  ratingValue: Number,
+  reviews: Number,
+  photos: [Object],
+  location: [Number],
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 module.exports = Room;

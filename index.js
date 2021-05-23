@@ -22,7 +22,7 @@ const roomRoutes = require("./routes/room");
 app.use(roomRoutes);
 
 app.get("/", function (req, res) {
-  res.send("Wlecom to Airbnb API.");
+  res.send("Welcome to Airbnb API.");
 });
 
 app.all("*", function (req, res) {
