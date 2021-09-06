@@ -1,14 +1,20 @@
 const express = require("express");
-const formidable = require("express-formidable");
+require("dotenv").config();
 const mongoose = require("mongoose");
-const helmet = require("helmet");
+const formidableMiddleware = require("express-formidable");
 const cors = require("cors");
+const helmet = require("helmet");
+const uid2 = require("uid2");
+const SHA256 = require("crypto-js/sha256");
+const encBase64 = require("crypto-js/enc-base64");
+
 const app = express();
-app.use(formidable());
+
 app.use(helmet());
+app.use(formidableMiddleware());
 app.use(cors());
 
-mongoose.connect("mongodb://localhost/airbnb-api", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/airbnb-api", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
@@ -16,18 +22,18 @@ mongoose.connect("mongodb://localhost/airbnb-api", {
 });
 
 const userRoutes = require("./routes/user");
+const roomsRoutes = require("./routes/room");
 app.use(userRoutes);
-
-const roomRoutes = require("./routes/room");
-app.use(roomRoutes);
+app.use(roomsRoutes);
 
 app.get("/", function (req, res) {
-  res.send("Welcome to Airbnb API.");
+  res.send("Welcome to the Airbnb API.");
 });
 
 app.all("*", function (req, res) {
-  res.status(404).json({ message: "Page not found" });
+  res.status(404).json({ error: "Page not found" });
 });
-app.listen(3000, () => {
+
+app.listen(process.env.PORT || 3000, () => {
   console.log("Server has started");
 });
