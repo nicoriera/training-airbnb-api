@@ -112,7 +112,7 @@ router.get("/users/:id", async (req, res) => {
           _id: user._id,
           email: user.email,
           account: user.account,
-          rooms: user.rooms,
+          // rooms: user.rooms,
         });
       } else {
         res.json({ message: "User not found" });
