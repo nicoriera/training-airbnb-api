@@ -6,6 +6,7 @@ const Room = require("../models/Room");
 const User = require("../models/User");
 
 const isAuthenticated = require("../middlewares/isAuthenticated");
+const noModification = require("../middlewares/noModification");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -166,7 +167,7 @@ router.get("/rooms/:id", async (req, res) => {
 });
 
 /* Update room (except pictures) */
-router.put("/room/update/:id", isAuthenticated, async (req, res) => {
+router.put("/room/update/:id", [noModification, isAuthenticated], async (req, res) => {
   if (req.params.id) {
     try {
       const room = await Room.findById(req.params.id);
@@ -221,7 +222,7 @@ router.put("/room/update/:id", isAuthenticated, async (req, res) => {
 });
 
 /* Upload one picture */
-router.put("/room/upload_picture/:id", isAuthenticated, async (req, res) => {
+router.put("/room/upload_picture/:id", [noModification, isAuthenticated] async (req, res) => {
   if (req.params.id) {
     if (req.files.picture) {
       try {
@@ -272,7 +273,7 @@ router.put("/room/upload_picture/:id", isAuthenticated, async (req, res) => {
 });
 
 /* Delete one picture */
-router.put("/room/delete_picture/:id", isAuthenticated, async (req, res) => {
+router.put("/room/delete_picture/:id", [noModification, isAuthenticated], async (req, res) => {
   if (req.params.id) {
     try {
       if (req.fields.picture_id) {
@@ -329,7 +330,7 @@ router.put("/room/delete_picture/:id", isAuthenticated, async (req, res) => {
 });
 
 /* Delete room */
-router.delete("/room/delete/:id", isAuthenticated, async (req, res) => {
+router.delete("/room/delete/:id", [noModification, isAuthenticated], async (req, res) => {
   if (req.params.id) {
     try {
       const room = await Room.findById(req.params.id);
