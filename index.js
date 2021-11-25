@@ -22,9 +22,9 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/airbnb-api", {
 });
 
 const userRoutes = require("./routes/user");
-
+const roomsRoutes = require("./routes/room");
 app.use(userRoutes);
-
+app.use(roomsRoutes);
 
 app.get("/", function (req, res) {
   res.send("Welcome to the Airbnb API.");
